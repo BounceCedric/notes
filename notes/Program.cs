@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace notes
 {
@@ -14,27 +16,31 @@ namespace notes
             bool running = true;
             string input;
 
-            Console.WriteLine("Welcome to Notes " + version);
-            print_help();
+            Console.WriteLine("Welcome to Notes " + version + "\n");
+            Console.Title = "Notes " + version;
 
             while (running)
             {
+                print_help();
                 input = Console.ReadLine();
-                input = input.Replace(" ", "");
-                input = input.ToLower();
-                switch (input)
+                string[] words = Regex.Split(input, @"\s+");
+
+                words[0] = words[0].ToLower();
+
+                switch (words[0])
                 {
+                    
+                    case "help":
+                        Console.Clear();
+                        break;
+                    case "make":
+                        make_note(words);
+                        break;
                     case "exit":
                         running = false;
                         break;
                     case "e":
                         running = false;
-                        break;
-                    case "help":
-                        print_help();
-                        break;
-                    case "make":
-                        make_note();
                         break;
                     default:
                         Console.WriteLine("'" + input + "' is not recognized");
@@ -49,26 +55,17 @@ namespace notes
             Console.WriteLine("Use 'exit' to exit the program");
             Console.WriteLine();
         }
-        static void make_note()
+        static void make_note(string[] words)
         {
-            string name, note, expiration = "";
-            bool expires;
-            string date = DateTime.Now.ToString();
+            try
+            {
+                create_note note = new create_note(words[1], words[2], words[3]);
+            }
+            catch
+            {
+                create_note note = new create_note();
+            }
 
-            Console.Write("Enter Note name: ");
-            name = Console.ReadLine().ToLower();
-
-            Console.WriteLine("Set expiration date as DD.MM.YYYY\n(leave empty if there is none): ");
-            expiration = Console.ReadLine();
-            if (expiration.Length < 0)
-
-            Console.WriteLine("Write Note:");
-            note = Console.ReadLine();
-
-            Console.WriteLine("New Note createt");
-            Console.WriteLine("Name: " + name);
-            Console.WriteLine("Date: " + date);
-            Console.WriteLine("Note:\n" + note);
         }
     }
 }
