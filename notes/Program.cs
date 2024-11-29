@@ -16,14 +16,19 @@ namespace notes
             bool running = true;
             string input;
 
-            Console.WriteLine("Welcome to Notes " + version + "\n");
-            Console.Title = "Notes " + version;
+            Console.WriteLine("Welcome to Ultra lightweight Notes " + version + "\n");
+            Console.Title = "ULN " + version;
 
             while (running)
             {
                 print_help();
                 input = Console.ReadLine();
                 string[] words = Regex.Split(input, @"\s+");
+
+                for (int i = 2; i < words.Length; i++)
+                {
+                    words[1] = words[1] + " " + words[i];
+                }
 
                 words[0] = words[0].ToLower();
 
@@ -59,7 +64,7 @@ namespace notes
         {
             try
             {
-                create_note note = new create_note(words[1], words[2], words[3]);
+                create_note note = new create_note(words[1]);
             }
             catch
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace notes
 {
@@ -10,15 +11,19 @@ namespace notes
     {
         string title { get; set; }
         string creation_date { get; set; }
-        string expiration_date { get; set; }
+        //string expiration_date { get; set; }
         //tags
         string text { get; set; }
+        string datei_pfad;
+        string content;
 
-        public create_note(string title, string expiration_date, string text)
+        public create_note(string text)
         {
-            this.title = title;
+            this.title = DateTime.Now.ToString().Replace(":", "");
+            title = title.Replace(".", "");
+            title = title.Replace(" ", "");
             this.creation_date = DateTime.Now.ToString("dd.MM.yyyy");
-            this.expiration_date = expiration_date;
+            //    this.expiration_date = expiration_date;
             this.text = text;
 
             save_note();
@@ -27,46 +32,9 @@ namespace notes
         public create_note()
         {
             Console.Clear();
-            Console.Write("Title: ");
-            title = Console.ReadLine();
-            
-            while (true)
-            {
-                bool valid_input = true;
-                Console.Write("Expiration Date? Leave empty if there is none!\nInput as DD.MM.YYYY: ");
-                expiration_date = Console.ReadLine();
-                if (expiration_date == "")
-                {
-                    expiration_date = "Never";
-                    break;
-                }
-                string[] temp = expiration_date.Split('.');
-                if (temp.Length < 3)
-                {
-                    Console.Clear();
-                    Console.WriteLine("falsche eingabe\n");
-                    continue;
-                }
-                for (int i = 0; i < temp.Length; i++)
-                {
-                    try
-                    {
-                        Convert.ToInt32(temp[i]);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("falsche eingabe");
-
-                        break;//funktioniert nicht
-                    }
-                }
-                if (!valid_input)
-                {
-                    break;
-                }
-            }
-            
-            
+            title = DateTime.Now.ToString().Replace(":", "");
+            title = title.Replace(".", "");
+            title = title.Replace(" ", "");
             
             Console.Write("Write Note: ");
             text = Console.ReadLine();
@@ -78,8 +46,7 @@ namespace notes
         void print_note()
         {
             Console.WriteLine("Title: " + title);
-            Console.WriteLine("Date: " + creation_date);
-            Console.WriteLine("Expires: " + expiration_date);
+            Console.WriteLine("Created on: " + creation_date);
             Console.WriteLine("Note: " + text);
             Console.WriteLine();
         }
@@ -95,6 +62,14 @@ namespace notes
                 switch (input)
                 {
                     case "y":
+                        datei_pfad = title + ".txt";
+                        
+                        content = "Title: " + title + "\n" +
+                                  "Created on: " + creation_date + "\n" +
+                                  "Text:\n" + text;
+
+                        File.WriteAllText(datei_pfad, content);
+                        
                         Console.Clear();
                         Console.WriteLine("Note saved\n");
                         break;
