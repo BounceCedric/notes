@@ -11,7 +11,6 @@ namespace notes
     {
         string title { get; set; }
         string creation_date { get; set; }
-        //string expiration_date { get; set; }
         //tags
         string text { get; set; }
         string datei_pfad;
@@ -23,7 +22,6 @@ namespace notes
             title = title.Replace(".", "");
             title = title.Replace(" ", "");
             this.creation_date = DateTime.Now.ToString("dd.MM.yyyy");
-            //    this.expiration_date = expiration_date;
             this.text = text;
 
             save_note();
@@ -62,20 +60,28 @@ namespace notes
                 switch (input)
                 {
                     case "y":
-                        datei_pfad = title + ".txt";
-                        
-                        content = "Title: " + title + "\n" +
-                                  "Created on: " + creation_date + "\n" +
-                                  "Text:\n" + text;
+                        if (Directory.Exists("notes"))
+                        {
+                            datei_pfad = "notes\\" + title + ".txt";
 
-                        File.WriteAllText(datei_pfad, content);
-                        
-                        Console.Clear();
-                        Console.WriteLine("Note saved\n");
+                            content = "Title: " + title + "\n" +
+                                      "Created on: " + creation_date + "\n" +
+                                      "Text:\n" + text;
+
+                            File.WriteAllText(datei_pfad, content);
+
+                            Console.Clear();
+                            Console.WriteLine("Note saved");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Directory not found\nRestart to create all Directories");
+                        }
                         break;
                     case "n":
                         Console.Clear();
-                        Console.WriteLine("Note deleted\n");
+                        Console.WriteLine("Note deleted");
                         break;
                     default:
                         Console.WriteLine("'" + input + "' is not recognized");
