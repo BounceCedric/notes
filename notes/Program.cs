@@ -12,7 +12,7 @@ namespace notes
     {
         static void Main(string[] args)
         {
-            string version = "1.0";
+            string version = "1.1";
             bool running = true;
             string input;
 
