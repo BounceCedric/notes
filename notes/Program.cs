@@ -129,7 +129,7 @@ namespace notes
             }
             catch
             {
-                Console.WriteLine("Invalid input: " + words[1]);
+                Console.WriteLine("Invalid input");
                 return;
             }
         }
