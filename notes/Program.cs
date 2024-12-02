@@ -57,6 +57,9 @@ namespace notes
                     case "delete":
                         delete_note(words);
                         break;
+                    case "d":
+                        delete_note(words);
+                        break;
                     case "":
                         Console.Clear();
                         break;
@@ -67,6 +70,7 @@ namespace notes
                         running = false;
                         break;
                     default:
+                        Console.Clear();
                         Console.WriteLine("'" + input + "' is not recognized");
                         break;
                 }
@@ -133,6 +137,10 @@ namespace notes
         {
             string[,] data = check_files();
             Console.Clear();
+            if (data.Length == 0)
+            {
+                Console.WriteLine("No files found");
+            }
             for (int i = 0; i < data.Length / 2; i++)
             {
                 Console.WriteLine((i + 1) + ": " + data[i, 1]);

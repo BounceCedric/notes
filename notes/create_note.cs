@@ -62,7 +62,7 @@ namespace notes
                     case "y":
                         if (Directory.Exists("notes"))
                         {
-                            datei_pfad = "notes\\" + title + ".txt";
+                            datei_pfad = "notes\\" + title + ".note";
 
                             content = "Title: " + title + "\n" +
                                       "Created on: " + creation_date + "\n" +
